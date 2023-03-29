@@ -1,7 +1,20 @@
 ## Crear la instancia de openldap
 docker run --name="open_ldap" --env LDAP_ORGANISATION="Enterprise Solutions" --env LDAP_DOMAIN="espy.cloud" --env LDAP_ADMIN_PASSWORD="secreto" --detach -p 127.0.0.1:389:389 -p 127.0.0.1:636:636 osixia/openldap:1.5.0
+
 ## Crear la instancia de phldapadmin
 docker run --name phpldapadmin --hostname phpldapadmin --link open_ldap:ldap-host --env PHPLDAPADMIN_LDAP_HOSTS=ldap-host -p 6443:443 --detach osixia/phpldapadmin:0.9.0
+
 ## Crear los grupos iniciales
 docker cp 01-crate_users_groups.ldif open_ldap:/root/01-crate_users_groups.ldif
 docker exec -it open_ldap ldapadd -x -W -D "cn=admin,dc=espy,dc=cloud" -f /root/01-crate_users_groups.ldif
+
+## Crear el usuario Mauricio Merin
+docker cp 02-crate_mauricio_merin.ldif open_ldap:/root/02-crate_mauricio_merin.ldif
+docker exec -it open_ldap ldapadd -x -W -D "cn=admin,dc=espy,dc=cloud" -f /root/02-crate_mauricio_merin.ldif
+
+## Crear el grupo administradores y agregar a Mauricio
+docker cp 03-create_grupo_administradores.ldif open_ldap:/root/03-create_grupo_administradores.ldif
+docker exec -it open_ldap ldapadd -x -W -D "cn=admin,dc=espy,dc=cloud" -f /root/03-create_grupo_administradores.ldif
+
+## Setear el password de Mauricio como administrador
+docker exec -it open_ldap ldappasswd -x -D "cn=admin,dc=espy,dc=cloud" -S "uid=mmerin,ou=users,dc=espy,dc=cloud" -W

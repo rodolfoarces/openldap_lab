@@ -1,0 +1,9 @@
+dn: uid=mmerin,ou=users,dc=espy,dc=cloud
+givenName: Mauricio
+sn: Merin
+cn: Mauricio Merin
+mail: mauricio@enterprisesolutions.com.py
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: mmerin
