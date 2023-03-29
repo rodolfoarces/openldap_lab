@@ -1,0 +1,16 @@
+cn: dc=espy,dc=cloud
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: param
+dc: param
+
+dn: ou=users,dc=espy,dc=cloud
+objectClass: top
+objectClass: organizationalUnit
+ou: users
+
+dn: ou=groups,dc=espy,dc=cloud
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
